@@ -10,7 +10,7 @@ variable "resource_group_location" {
 
 variable "storage_account_name" {
   description = "Name of the storage account"
-  default     = "mystorage38280"
+  default     = "resume"
 }
 
 # variable "service_plan_name" {
