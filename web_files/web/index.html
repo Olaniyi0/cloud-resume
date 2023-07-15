@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="man.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Waiting+for+the+Sunrise&display=swap" rel="stylesheet">
+    <script>
+        fetch('https://neyocareer.azurewebsites.net/api/httptrigger1')
+          .then(response => response.text())
+          .then(data => {
+            // Handle the response from the Azure Function
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = data;
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Error:', error);
+          });
+    </script>
+    <title>My CV</title>
+</head>
+<body>
+    <h2>OLADOJA NIYI</h2>
+    <p>A results-oriented Cyber Security major currently attending Federal University of Technology, Akure. Aiming to leverage proven creative thinking, critical thinking, and teamwork skills to help whenever needed. I'm skilled and highly motivated to work, learn and advance my skills as necessary.</p>
+    <h3>TECHNICAL SKILLS</h3>
+    <ul>
+        <li>GCP: Identity and Access Management, Compute Engine, Google Cloud storage,
+            Databases, Load Balancing, VPCs, Cloud NAT, Autoscaling, Cloud Armor, Cloud
+            Monitoring, Error Reporting, Cloud Marketplace, Kubernetes Engine and other cloud
+            services on GCP</li>
+        <li> Basic Linux: Installing and managing Linux based OS, connecting remotely using SSH,
+            basic network troubleshooting.</li>
+        <li>Python programming experience</li>
+    </ul>
+    <h3>CORE COMPETENCIES</h3>
+    <ul>
+        <li>Deploying and implementing a cloud solution using GCP.</li>
+        <li>Ensure successful operation of a cloud solution.</li>
+        <li>Hands-on skills using compute, networking, storage, and GCP database services.</li>
+        <li>Knowledge of best practices in building, deploying and securing cloud applications in
+            GCP.</li>
+        <li>Knowledge of network technologies as they relate to GCP.</li>
+    </ul>
+    <h3>HANDS-ON PROJECTS:</h3>
+    <ul>
+        <li>Setting up and configuring cloud environment on GCP.</li>
+        <li>Using GCP Identity and Access management (IAM) to manage access and
+            permissions to AWS resources and projects.</li>
+        <li>Using Google Cloud Storage Bucket to host a static website.</li>
+        <li>Setting up a LAMP stack on Google Compute Engine.</li>
+        <li>Automating Infrastructure on GCP with Terraform</li>
+        <li>Setting up a Google Kubernetes Engine Cluster and deploying a service on the GKE
+            and scaling up the services as needed</li>
+    </ul>
+    <h3>CERTIFICATIONS:</h3>
+    <ul>
+        <li>Google Associate Cloud Engineer</li>
+    </ul>
+    <h3>RELEVANT COURSEWORK:</h3>
+    <ul>
+        <li>Cisco CCNA 200-301 Complete Course</li>
+        <li>Intermediate Python Training</li>
+        <li>SAP USA Cybersecurity Virtual Internship</li>
+        <li>ANZ Australia Cyber@ANZ Program</li>
+    </ul>
+    <a href="mailto:niyioladoja0@gmail.com">Send mail</a>
+    <a href="https://www.linkedin.com/in/olaniyi-oladoja-a0780b1b3/" target="_blank">LinkedIn</a>
+    <a href="tel: +2349056365631">(234)9056365631</a><br>
+    <a>Numbers of visitors <i id="result"></i></a>
+</body>
+</html>
