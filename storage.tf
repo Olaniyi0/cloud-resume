@@ -33,6 +33,7 @@ resource "null_resource" "blob_upload" {
 #################### DATABASE ####################
 
 resource "azurerm_cosmosdb_account" "resume-db" {
+  depends_on = [ azurerm_resource_group.cloud_resume_rg ]
   name = "${local.storage_account_name}-db"
   location = var.resource_group_location
   resource_group_name = var.resource_group_name
@@ -43,6 +44,10 @@ resource "azurerm_cosmosdb_account" "resume-db" {
 
 
   capabilities {
+    name = "EnableTable"
+  }
+
+  capabilities {
     name = "EnableServerless"
   }
 
@@ -51,7 +56,7 @@ resource "azurerm_cosmosdb_account" "resume-db" {
   }
 
   geo_location {
-    location = "ukwest"
+    location = "uksouth"
     failover_priority = 0
   }
 
@@ -64,6 +69,7 @@ resource "azurerm_cosmosdb_account" "resume-db" {
 }
 
 resource "azurerm_cosmosdb_table" "resumes-db" {
+  depends_on = [ azurerm_cosmosdb_account.resume-db ]
   name = "${local.storage_account_name}-visitorsCount"
   resource_group_name = var.resource_group_name
   account_name = azurerm_cosmosdb_account.resume-db.name
