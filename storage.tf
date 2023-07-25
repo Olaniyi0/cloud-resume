@@ -29,12 +29,63 @@ resource "null_resource" "blob_upload" {
   }
 }
 
+resource "azurerm_storage_container" "function_blob_container" {
+  depends_on = [ azurerm_storage_account.resume_storage_account ]
+  name                  = "${local.pet_name}-function-app"
+  storage_account_name  = azurerm_storage_account.resume_storage_account.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "function_blob" {
+  depends_on = [ azurerm_storage_container.function_blob_container ]
+  name                   = "function_app.zip"
+  storage_account_name   = azurerm_storage_account.resume_storage_account.name
+  storage_container_name = azurerm_storage_container.function_blob_container.name
+  type                   = "Block"
+  source                 = "./function_app.zip"
+}
+
+data "azurerm_storage_account_sas" "function_app_blob_sas" {
+  depends_on = [ azurerm_storage_blob.function_blob ]
+  connection_string = azurerm_storage_account.resume_storage_account.primary_connection_string
+  https_only        = true
+  signed_version    = "2017-07-29"
+
+  resource_types {
+    service   = false
+    container = false
+    object    = true
+  }
+
+  services {
+    blob  = true
+    queue = false
+    table = false
+    file  = false
+  }
+
+  start  = local.sas_start_time
+  expiry = local.sas_expiry_time
+
+  permissions {
+    read    = true
+    write   = false
+    delete  = false
+    list    = false
+    add     = false
+    create  = false
+    update  = false
+    process = false
+    tag     = false
+    filter  = false
+  }
+}
 
 #################### DATABASE ####################
 
 resource "azurerm_cosmosdb_account" "resume-db" {
   depends_on = [ azurerm_resource_group.cloud_resume_rg ]
-  name = "${local.storage_account_name}-db"
+  name = "${local.pet_name}-db"
   location = var.resource_group_location
   resource_group_name = var.resource_group_name
   offer_type = "Standard"
@@ -70,7 +121,7 @@ resource "azurerm_cosmosdb_account" "resume-db" {
 
 resource "azurerm_cosmosdb_table" "resumes-db" {
   depends_on = [ azurerm_cosmosdb_account.resume-db ]
-  name = "${local.storage_account_name}-visitorsCount"
+  name = "visitors"
   resource_group_name = var.resource_group_name
   account_name = azurerm_cosmosdb_account.resume-db.name
 }
